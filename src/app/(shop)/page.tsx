@@ -10,19 +10,20 @@ export default function ShopHome() {
       <section className="relative h-[80vh] w-full bg-[#f8f8f8] flex items-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/hero.png"
+            src="/images/hero-clean.png"
             alt="Elegant diamond jewelry collection"
             fill
+            sizes="100vw"
             className="object-cover object-right md:object-center opacity-90"
             priority
           />
         </div>
         <div className="container relative z-10 mx-auto px-4 md:px-8">
-          <div className="max-w-xl space-y-6">
+          <div className="max-w-xl space-y-6 bg-white/40 backdrop-blur-md p-8 md:p-12 rounded-2xl shadow-sm border border-white/20">
             <h1 className="font-serif text-5xl md:text-7xl font-bold leading-tight tracking-tight text-gray-900">
               Timeless Elegance
             </h1>
-            <p className="text-lg md:text-xl text-gray-700 max-w-md font-sans font-light">
+            <p className="text-lg md:text-xl text-gray-800 max-w-md font-sans font-medium">
               Discover our new collection of ethically sourced, handcrafted fine jewelry designed for the modern romantic.
             </p>
             <div className="pt-4">
@@ -73,6 +74,7 @@ export default function ShopHome() {
                 src="/images/ring.png"
                 alt="Rings"
                 fill
+                sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/20" />
@@ -86,6 +88,7 @@ export default function ShopHome() {
                 src="/images/necklace.png"
                 alt="Necklaces"
                 fill
+                sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/20" />
@@ -99,6 +102,7 @@ export default function ShopHome() {
                 src="/images/earrings.png"
                 alt="Earrings"
                 fill
+                sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/20" />
@@ -137,6 +141,7 @@ export default function ShopHome() {
                     src={product.image}
                     alt={product.name}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
