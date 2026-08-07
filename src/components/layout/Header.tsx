@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ShoppingBag, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -14,8 +15,8 @@ export async function Header() {
         
         {/* Left Logo */}
         <div className="flex shrink-0 items-center">
-          <Link href="/" className="font-serif text-2xl md:text-3xl font-bold tracking-tight">
-            SYNAS
+          <Link href="/">
+            <Image src="/images/logo.png" alt="SYNAS" width={140} height={70} className="object-contain" priority />
           </Link>
         </div>
 

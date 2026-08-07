@@ -34,9 +34,8 @@ export default function LoginPage() {
         setError("Invalid email or password");
       } else {
         router.push("/");
-        router.refresh();
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred");
     } finally {
       setLoading(false);
@@ -100,7 +99,7 @@ export default function LoginPage() {
 
       <div className="text-center text-sm">
         <Link href="/signup" className="group cursor-pointer">
-          <span className="text-muted-foreground">Don't have an account? </span>
+          <span className="text-muted-foreground">Don&apos;t have an account? </span>
           <span className="text-primary group-hover:underline underline-offset-4 font-medium">
             Create account
           </span>

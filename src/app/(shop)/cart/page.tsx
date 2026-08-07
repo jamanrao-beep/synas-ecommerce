@@ -19,7 +19,7 @@ export default function CartPage() {
         </div>
         <h1 className="font-serif text-3xl font-bold mb-4">Your Cart is Empty</h1>
         <p className="text-muted-foreground max-w-md mb-8">
-          Looks like you haven't added anything to your cart yet. Discover our collection of fine jewelry.
+          Looks like you haven&apos;t added anything to your cart yet. Discover our collection of fine jewelry.
         </p>
         <Button asChild size="lg" className="rounded-full px-8">
           <Link href="/products">Shop New Arrivals</Link>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { NewsletterForm } from "./NewsletterForm";
 
 export function Footer() {
@@ -7,8 +8,8 @@ export function Footer() {
       <div className="container mx-auto px-4 py-16 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="md:col-span-1">
-            <Link href="/" className="font-serif text-2xl font-bold tracking-tight mb-4 inline-block">
-              SYNAS
+            <Link href="/" className="mb-4 inline-block">
+              <Image src="/images/logo.png" alt="SYNAS" width={140} height={70} className="object-contain" />
             </Link>
             <p className="text-sm text-muted-foreground mt-2 max-w-xs">
               Curated fine jewelry for the modern aesthetic. Crafted with precision, worn with elegance.

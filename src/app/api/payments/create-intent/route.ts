@@ -18,8 +18,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Stripe error:", error);
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    return NextResponse.json({ message: error instanceof Error ? error.message : "Internal error" }, { status: 500 });
   }
 }

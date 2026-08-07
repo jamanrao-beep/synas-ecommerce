@@ -14,6 +14,7 @@ export default async function ProductsPage({
   const searchQuery = resolvedParams.q;
 
   // Build the query
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {};
   if (categoryFilter) {
     where.category = { slug: categoryFilter };
