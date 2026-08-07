@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ShoppingBag, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { HeaderSearch } from "./HeaderSearch";
@@ -14,15 +14,8 @@ export async function Header() {
         
         {/* Left Logo */}
         <div className="flex shrink-0 items-center">
-          <Link href="/">
-            <Image 
-              src="/images/logo.png" 
-              alt="Synas Handcrafted Heritage" 
-              width={140} 
-              height={50} 
-              className="object-contain w-auto h-16"
-              priority
-            />
+          <Link href="/" className="font-serif text-2xl md:text-3xl font-bold tracking-tight">
+            SYNAS
           </Link>
         </div>
 
