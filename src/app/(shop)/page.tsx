@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Product } from "@prisma/client";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Truck, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -136,7 +137,7 @@ export default async function ShopHome() {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {latestProducts.map((product) => (
+            {latestProducts.map((product: Product) => (
               <Link key={product.id} href={`/products/${product.slug}`} className="group flex flex-col">
                 <div className="relative aspect-square mb-4 bg-gray-50 overflow-hidden">
                   {product.images[0] && (
