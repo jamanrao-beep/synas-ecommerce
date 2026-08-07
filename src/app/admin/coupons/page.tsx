@@ -1,0 +1,1 @@
+export default function AdminCoupons() { return <div>Manage Coupons</div>; }
