@@ -99,9 +99,11 @@ export default function LoginPage() {
       </form>
 
       <div className="text-center text-sm">
-        <span className="text-muted-foreground">Don't have an account? </span>
-        <Link href="/signup" className="text-primary hover:underline underline-offset-4 font-medium">
-          Create account
+        <Link href="/signup" className="group cursor-pointer">
+          <span className="text-muted-foreground">Don't have an account? </span>
+          <span className="text-primary group-hover:underline underline-offset-4 font-medium">
+            Create account
+          </span>
         </Link>
       </div>
     </div>

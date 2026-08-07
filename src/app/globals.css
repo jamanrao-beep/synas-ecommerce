@@ -24,17 +24,7 @@
     --border: #e4e4e7;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: #000000;
-      --foreground: #ffffff;
-      --primary: #ffffff;
-      --primary-foreground: #000000;
-      --muted: #18181b;
-      --muted-foreground: #a1a1aa;
-      --border: #27272a;
-    }
-  }
+
 
   body {
     background-color: var(--background);

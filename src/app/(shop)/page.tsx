@@ -2,8 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Truck, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { prisma } from "@/lib/prisma";
+import { formatPrice } from "@/lib/utils";
 
-export default function ShopHome() {
+export default async function ShopHome() {
+  // Fetch latest 4 products from DB
+  const latestProducts = await prisma.product.findMany({
+    take: 4,
+    orderBy: { createdAt: 'desc' },
+  });
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -69,45 +77,45 @@ export default function ShopHome() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Link href="/products?category=rings" className="group relative h-[400px] overflow-hidden bg-gray-100 flex items-center justify-center">
+            <Link href="/products?category=indian" className="group relative h-[400px] overflow-hidden bg-gray-100 flex items-center justify-center">
               <Image
                 src="/images/ring.png"
-                alt="Rings"
+                alt="Indian"
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/20" />
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-8 py-3 text-center transition-transform duration-500 group-hover:-translate-y-2">
-                <h3 className="font-serif text-xl font-semibold">Rings</h3>
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-10 py-3 text-center transition-transform duration-500 group-hover:-translate-y-2 text-gray-900 shadow-sm">
+                <h3 className="font-serif text-xl font-semibold tracking-wide">Indian</h3>
               </div>
             </Link>
             
-            <Link href="/products?category=necklaces" className="group relative h-[400px] overflow-hidden bg-gray-100 flex items-center justify-center">
+            <Link href="/products?category=western" className="group relative h-[400px] overflow-hidden bg-gray-100 flex items-center justify-center">
               <Image
                 src="/images/necklace.png"
-                alt="Necklaces"
+                alt="Western"
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/20" />
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-8 py-3 text-center transition-transform duration-500 group-hover:-translate-y-2">
-                <h3 className="font-serif text-xl font-semibold">Necklaces</h3>
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-10 py-3 text-center transition-transform duration-500 group-hover:-translate-y-2 text-gray-900 shadow-sm">
+                <h3 className="font-serif text-xl font-semibold tracking-wide">Western</h3>
               </div>
             </Link>
 
-            <Link href="/products?category=earrings" className="group relative h-[400px] overflow-hidden bg-gray-100 flex items-center justify-center">
+            <Link href="/products?category=bohemian" className="group relative h-[400px] overflow-hidden bg-gray-100 flex items-center justify-center">
               <Image
                 src="/images/earrings.png"
-                alt="Earrings"
+                alt="Bohemian"
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/20" />
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-8 py-3 text-center transition-transform duration-500 group-hover:-translate-y-2">
-                <h3 className="font-serif text-xl font-semibold">Earrings</h3>
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-10 py-3 text-center transition-transform duration-500 group-hover:-translate-y-2 text-gray-900 shadow-sm">
+                <h3 className="font-serif text-xl font-semibold tracking-wide">Bohemian</h3>
               </div>
             </Link>
           </div>
@@ -128,25 +136,21 @@ export default function ShopHome() {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* We will map over actual products here later, for now placeholders */}
-            {[
-              { id: 1, name: "Solitaire Diamond Ring", price: "$2,450", image: "/images/ring.png" },
-              { id: 2, name: "Classic Gold Chain", price: "$850", image: "/images/necklace.png" },
-              { id: 3, name: "Pearl Drop Earrings", price: "$1,200", image: "/images/earrings.png" },
-              { id: 4, name: "Eternity Band", price: "$1,850", image: "/images/ring.png" }
-            ].map((product) => (
-              <Link key={product.id} href={`/products/${product.id}`} className="group flex flex-col">
+            {latestProducts.map((product) => (
+              <Link key={product.id} href={`/products/${product.slug}`} className="group flex flex-col">
                 <div className="relative aspect-square mb-4 bg-gray-50 overflow-hidden">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+                  {product.images[0] && (
+                    <Image
+                      src={product.images[0]}
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )}
                 </div>
                 <h3 className="font-serif text-lg">{product.name}</h3>
-                <p className="text-gray-500 mt-1 font-light">{product.price}</p>
+                <p className="text-gray-500 mt-1 font-light">{formatPrice(product.price / 100)}</p>
               </Link>
             ))}
           </div>
