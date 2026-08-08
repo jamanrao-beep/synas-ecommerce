@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="md:col-span-1">
             <Link href="/" className="mb-4 inline-block">
-              <Image src="/images/logo.png" alt="SYNAS" width={140} height={70} className="object-contain" />
+              <Image src="/images/logo.png" alt="SYNAS" width={300} height={150} className="h-16 md:h-20 w-auto object-contain" />
             </Link>
             <p className="text-sm text-muted-foreground mt-2 max-w-xs">
               Curated fine jewelry for the modern aesthetic. Crafted with precision, worn with elegance.

@@ -19,7 +19,7 @@ async function main() {
     { name: 'Kamabandh', slug: 'kamabandh' },
   ]
 
-  const createdCategories: Record<string, unknown> = {}
+  const createdCategories: Record<string, { id: string }> = {}
 
   for (const cat of categoriesData) {
     createdCategories[cat.slug] = await prisma.category.create({ data: cat })

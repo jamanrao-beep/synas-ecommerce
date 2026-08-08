@@ -16,7 +16,7 @@ export async function Header() {
         {/* Left Logo */}
         <div className="flex shrink-0 items-center">
           <Link href="/">
-            <Image src="/images/logo.png" alt="SYNAS" width={140} height={70} className="object-contain" priority />
+            <Image src="/images/logo.png" alt="SYNAS" width={300} height={150} className="h-16 md:h-20 w-auto object-contain" priority />
           </Link>
         </div>
 
