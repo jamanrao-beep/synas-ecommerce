@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Category, Product } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -36,7 +37,7 @@ export default async function ProductsPage({
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <h1 className="font-serif text-3xl md:text-4xl font-bold">
           {categoryFilter 
-            ? categories.find(c => c.slug === categoryFilter)?.name || "Collection"
+            ? categories.find((c: Category) => c.slug === categoryFilter)?.name || "Collection"
             : searchQuery 
             ? `Search: ${searchQuery}`
             : "All Jewelry"}
@@ -68,7 +69,7 @@ export default async function ProductsPage({
                 All
               </Link>
             </li>
-            {categories.map(category => (
+            {categories.map((category: Category) => (
               <li key={category.id}>
                 <Link 
                   href={`/products?category=${category.slug}`}
@@ -89,7 +90,7 @@ export default async function ProductsPage({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.map((product) => (
+              {products.map((product: Product & { category: Category }) => (
                 <Link key={product.id} href={`/products/${product.slug}`} className="group flex flex-col">
                   <div className="relative aspect-square mb-4 bg-gray-50 overflow-hidden rounded-md">
                     {product.images[0] && (
