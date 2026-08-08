@@ -127,7 +127,7 @@ export default function CartPage() {
             </Button>
             
             <div className="mt-6 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-              <ShieldCheck className="h-4 w-4" /> Secure checkout powered by Stripe
+              <ShieldCheck className="h-4 w-4" /> Secure checkout powered by PayPal
             </div>
           </div>
         </div>

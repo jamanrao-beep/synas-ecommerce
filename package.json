@@ -10,6 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^10.3.0",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "@prisma/config": "^7.9.1",
@@ -25,7 +26,6 @@
     "pg": "^8.22.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "stripe": "^22.4.0",
     "tailwind-merge": "^3.6.0",
     "zustand": "^5.0.14"
   },

@@ -8,30 +8,75 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, getCartTotal, clearCart } = useCart();
   const total = getCartTotal();
-  const [loading, setLoading] = useState(false);
+  
+  // Need to provide NEXT_PUBLIC_PAYPAL_CLIENT_ID in env
+  const initialOptions = {
+    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test",
+    currency: "USD",
+    intent: "capture",
+  };
 
-  // In a real app, you would use Stripe Elements here.
-  // For now, we simulate a checkout process.
-  const handleCheckout = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const createOrder = async () => {
     try {
-      // Simulate API call to create PaymentIntent
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      // Simulate successful payment
-      clearCart();
-      router.push("/orders"); // Or a success page
+      const response = await fetch("/api/payments/paypal/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: total / 100 }),
+      });
+      const orderData = await response.json();
+
+      if (orderData.id) {
+        return orderData.id;
+      } else {
+        const errorDetail = orderData?.details?.[0];
+        const errorMessage = errorDetail
+          ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+          : JSON.stringify(orderData);
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      console.error("Failed to create order:", error);
+      throw error;
+    }
+  };
+
+  const onApprove = async (data: any, actions: any) => {
+    try {
+      const response = await fetch("/api/payments/paypal/capture-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderID: data.orderID }),
+      });
+      const orderData = await response.json();
+      const errorDetail = orderData?.details?.[0];
+
+      if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+        return actions.restart();
+      } else if (errorDetail) {
+        throw new Error(`${errorDetail.description} (${orderData.debug_id})`);
+      } else if (!orderData.purchase_units) {
+        throw new Error(JSON.stringify(orderData));
+      } else {
+        const transaction =
+          orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
+          orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
+        
+        console.log("Capture result", orderData, JSON.stringify(orderData, null, 2));
+        
+        // Handle successful payment
+        clearCart();
+        alert(`Transaction ${transaction.status}: ${transaction.id}`);
+        router.push("/");
+      }
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
+      alert("Sorry, your transaction could not be processed.");
     }
   };
 
@@ -52,7 +97,7 @@ export default function CheckoutPage() {
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
         {/* Checkout Form */}
         <div className="flex-1">
-          <form onSubmit={handleCheckout} className="space-y-8">
+          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
             <div className="space-y-4">
               <h2 className="text-xl font-semibold border-b pb-2">Shipping Information</h2>
               <div className="grid grid-cols-2 gap-4">
@@ -83,16 +128,16 @@ export default function CheckoutPage() {
 
             <div className="space-y-4 pt-8">
               <h2 className="text-xl font-semibold border-b pb-2">Payment Details</h2>
-              <div className="p-4 bg-muted/50 rounded-md border flex items-center justify-center text-sm text-muted-foreground">
-                <Lock className="mr-2 h-4 w-4" />
-                Stripe integration will go here
+              <div className="rounded-md border p-4 bg-white relative z-0">
+                <PayPalScriptProvider options={initialOptions}>
+                  <PayPalButtons
+                    createOrder={createOrder}
+                    onApprove={onApprove}
+                    style={{ layout: "vertical", shape: "rect", color: "black" }}
+                  />
+                </PayPalScriptProvider>
               </div>
             </div>
-
-            <Button type="submit" size="lg" className="w-full h-14 rounded-full text-base" disabled={loading}>
-              {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-              {loading ? "Processing..." : `Pay ${formatPrice(total / 100)}`}
-            </Button>
           </form>
         </div>
 
